@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../theme/theme_mod.dart';
 
 class Header extends StatefulWidget implements PreferredSizeWidget {
   const Header({super.key});
@@ -11,26 +13,19 @@ class Header extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _HeaderState extends State<Header> {
-  bool isDarkMode = false;
-
-  void toggleMode() {
-    setState(() {
-      isDarkMode = !isDarkMode; // Toggle the mode
-    });
-    // Log to console
-    print(isDarkMode ? "Switched to Dark Mode" : "Switched to Light Mode");
-  }
-
   @override
   Widget build(BuildContext context) {
+    final themeModifier = Provider.of<ThemeModifier>(context);
+
     return AppBar(
       title: const Text('My Price Peeker Header'),
       centerTitle: true,
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       actions: [
         IconButton(
-          icon: Icon(isDarkMode ? Icons.dark_mode : Icons.light_mode),
-          onPressed: toggleMode,
+          icon: Icon(
+              themeModifier.isDarkMode ? Icons.dark_mode : Icons.light_mode),
+          onPressed: () => themeModifier.toggleTheme(),
         ),
       ],
     );
